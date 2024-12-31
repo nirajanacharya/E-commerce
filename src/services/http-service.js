@@ -2,13 +2,14 @@ import axiosInstance from "../config/axios.config"
 
 class HttpService {
     config = null;
+    // {auth: true}
     setConfig = (reqConfig) => {
         this.config = {
             headers: {
                 "Content-Type": "application/json"
             }
         }
-        console.log(reqConfig)
+        // console.log(reqConfig)
         if(reqConfig.file || reqConfig.files) {
             this.config = {
                 ...this.config,
@@ -20,27 +21,47 @@ class HttpService {
         }
 
         if(reqConfig.auth) {
-        
+            let token = localStorage.getItem("accessToken") || null; 
+            if(!token) {
+                throw {code: 401, message: "User not loggedIn"}
+            }
             this.config = {
                 ...this.config,
                 headers: {
                     ...this.config.headers,
-                    "Authorization": "",            // TODO: Add keys
+                    "Authorization": "Bearer "+token,            // TODO: Add keys
+                }
+            }
+        }
+
+        if(reqConfig.refresh) {
+            let token = localStorage.getItem("refreshToken") || null; 
+            if(!token) {
+                throw {code: 401, message: "User not loggedIn"}
+            }
+            this.config = {
+                ...this.config,
+                headers: {
+                    ...this.config.headers,
+                    "Refresh": token,            // TODO: Add keys
                 }
             }
         }
 
         if(reqConfig.params) {
             this.config = {
-                ...this.config,
+                headers: {
+                    ...this.config.headers
+                },
                 params: {
-                    ...this.config, 
+                    ...this.config.params, 
                     ...reqConfig.params
                 }
             }
         }
     }
 
+    // {auth: true}
     getRequest = async(url, config=null) => {
         try{
             if(config) {
@@ -49,13 +70,14 @@ class HttpService {
             const response = await axiosInstance.get(url, this.config)
             return response // undefined
         } catch(exception) {
-            console.log("postRequest", exception)
+            console.log("getRequest", exception)
             throw exception
         }
     }
 
     postRequest = async(url, data ={}, config=null) => {
         try{
+            this.config = null;
             if(config) {
                 this.setConfig(config)
             }

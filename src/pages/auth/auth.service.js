@@ -1,5 +1,6 @@
 import HttpService from "../../services/http-service";
-import { getCookie, setCookie } from "../../utilities/helpers";
+
+// import { getCookie, setCookie } from "../../utilities/helpers";
 
 class AuthService extends HttpService {
     registerUser = async (data) => {
