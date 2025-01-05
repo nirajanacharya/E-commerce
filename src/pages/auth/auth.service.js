@@ -15,7 +15,7 @@ class AuthService extends HttpService {
 
     activateUsingOTP = async (data) => {
         try{
-            const result = await this.putRequest('auth/activate', data)
+            const result = await this.putRequest('/auth/activate', data)
             return result;
         } catch(exception) {
             console.log("registerUser", exception)
@@ -51,11 +51,8 @@ class AuthService extends HttpService {
             // // cookie, localstorage
             localStorage.setItem('accessToken', response.data.data.accessToken);
             localStorage.setItem('refreshToken', response.data.data.refreshToken);
-
-            //
-            // setCookie('accessToken', '', -1)
-            // console.log(getCookie('accessToken'));
-            return response;
+            let loggedInUser = await this.getLoggedInUser()
+          return loggedInUser;
         } catch(exception) {
             // console.log("loginUser", exception)
             throw exception
