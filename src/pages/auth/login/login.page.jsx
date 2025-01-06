@@ -7,9 +7,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { showError } from "../../../utilities/helpers";
 import { toast } from "react-toastify";
 import authSvc from "../auth.service";
+import { useContext, useEffect } from "react";
+import AuthContext from "../../../context/auth.context";
 
 const LoginPage = () => {
-	const navigate =useNavigate();
+
+	const navigate = useNavigate()	// route redirect
+	const {user} = useContext(AuthContext)
 	
 	const loginDTO = Yup.object({
 		email: Yup.string().email("Invalid Email Format").required("Email is compulsory"),
@@ -24,15 +28,20 @@ const LoginPage = () => {
 	const submitEvent = async(data) => {
 		try {
 			const response = await authSvc.loginUser(data);
-			const first = response.name.split(" ").shift();
-			toast.success(`Welcome ${first} to ${response.role} panel`)
-			navigate('/'+ response.role)
-			// 
+			let first = response.name.split(" ").shift()
+			toast.success(`Welcome ${first}! To ${response.role} panel!!`)
+			navigate('/'+response.role)
 		} catch(exception) {
 			showError(exception, setError)
 			toast.error("Error while logging in...")
 		}
 	}
+
+	useEffect(() => {
+		if(user) {
+			navigate('/'+user.role)
+		}
+	}, [user])
 	return (
 		<>
 			<section className="bg-gray-50 dark:bg-gray-900">

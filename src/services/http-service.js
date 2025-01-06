@@ -34,27 +34,11 @@ class HttpService {
             }
         }
 
-        if(reqConfig.refresh) {
-            let token = localStorage.getItem("refreshToken") || null; 
-            if(!token) {
-                throw {code: 401, message: "User not loggedIn"}
-            }
-            this.config = {
-                ...this.config,
-                headers: {
-                    ...this.config.headers,
-                    "Refresh": token,            // TODO: Add keys
-                }
-            }
-        }
-
         if(reqConfig.params) {
             this.config = {
-                headers: {
-                    ...this.config.headers
-                },
+                ...this.config,
                 params: {
-                    ...this.config.params, 
+                    ...this.config, 
                     ...reqConfig.params
                 }
             }
@@ -77,7 +61,6 @@ class HttpService {
 
     postRequest = async(url, data ={}, config=null) => {
         try{
-            this.config = null;
             if(config) {
                 this.setConfig(config)
             }

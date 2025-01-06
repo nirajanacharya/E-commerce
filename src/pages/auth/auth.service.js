@@ -1,6 +1,5 @@
 import HttpService from "../../services/http-service";
-
-// import { getCookie, setCookie } from "../../utilities/helpers";
+import { getCookie, setCookie } from "../../utilities/helpers";
 
 class AuthService extends HttpService {
     registerUser = async (data) => {
@@ -15,7 +14,7 @@ class AuthService extends HttpService {
 
     activateUsingOTP = async (data) => {
         try{
-            const result = await this.putRequest('/auth/activate', data)
+            const result = await this.putRequest('auth/activate', data)
             return result;
         } catch(exception) {
             console.log("registerUser", exception)
@@ -51,8 +50,10 @@ class AuthService extends HttpService {
             // // cookie, localstorage
             localStorage.setItem('accessToken', response.data.data.accessToken);
             localStorage.setItem('refreshToken', response.data.data.refreshToken);
-            let loggedInUser = await this.getLoggedInUser()
-          return loggedInUser;
+
+            //
+            let loggedinUser = await this.getLoggedInUser()
+            return loggedinUser
         } catch(exception) {
             // console.log("loginUser", exception)
             throw exception

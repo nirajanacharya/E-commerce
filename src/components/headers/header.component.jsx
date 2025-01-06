@@ -1,29 +1,15 @@
 import "flowbite";
 import { DarkThemeToggle } from "flowbite-react";
-import { UserIcon, ChevronDownArrow } from '../icons/icons.component';
 import { NavLink } from "react-router-dom";
-import { useState, useContext, useEffect } from "react";
+import { ChevronDownArror, UserIcon } from "../icons/icons.component";
+import { useContext, useEffect, useState } from "react";
+import authSvc from "../../pages/auth/auth.service";
+import AuthContext from "../../context/auth.context";
 
-import AuthContext from "../../components/context/AuthContext";
-
-export const HomeHeader = () => {	
-	const {user} = useContext(AuthContext);	
-	console.log("userContext", {user});
-	// const [user, setUser] = useState();
-
-	// const checkLoggedInUser = async () => {
-	// 	try {
-	// 		const response = await authSvc.getLoggedInUser();
-	// 		setUser(response);
-	// 	} catch (error) {
-	// 		console.error("Error fetching logged-in user:", error);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	checkLoggedInUser(); 
-	// }, []);
-
+export const HomeHeader = () => {
+	
+	const {user} = useContext(AuthContext);
+	
     return (
         <nav className="bg-white dark:bg-primary-950 antialiased">
 			<div className="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-4">
@@ -404,10 +390,11 @@ export const HomeHeader = () => {
 							type="button"
 							className="inline-flex items-center rounded-lg justify-center p-2 hover:bg-primary-100 dark:hover:bg-primary-700 text-sm font-medium leading-none text-primary-900 dark:text-white"
 						>
-							<UserIcon/>
+							<UserIcon />
 							Account
-							<ChevronDownArrow/>
+							<ChevronDownArror />
 						</button>
+
 						<div
 							id="userDropdown1"
 							className="hidden z-10 w-56 divide-y divide-primary-100 overflow-hidden overflow-y-auto rounded-lg bg-white antialiased shadow dark:divide-primary-600 dark:bg-primary-700"
