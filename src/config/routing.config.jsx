@@ -1,4 +1,4 @@
-import { BrowserRouter, createBrowserRouter, Route, RouterProvider, Routes } from "react-router-dom";
+import { createBrowserRouter, Route, RouterProvider, Routes } from "react-router-dom";
 import LandingPage from "../pages/landing"
 import AboutUsPage from "../pages/about-us/about-us.page";
 import AllProductGridPage from "../pages/products/all-products.page";
@@ -10,7 +10,7 @@ import NotFoundPage from "../pages/errors/not-found.page";
 import LoginPage from "../pages/auth/login/login.page";
 import RegisterPage from "../pages/auth/register/register.page";
 import { ToastContainer } from "react-toastify";
-
+import { AuthProvider } from "../components/context/AuthContext";
 
 const router = createBrowserRouter([
     {
@@ -65,9 +65,12 @@ const router = createBrowserRouter([
 
 const Routing = () => {
     return (<>
+
+    <AuthProvider>
         <ToastContainer 
             theme="colored"
         />
+
         <RouterProvider router={router} />
         {/* <BrowserRouter>
             <Routes>
@@ -79,6 +82,7 @@ const Routing = () => {
                 </Route>
             </Routes>
         </BrowserRouter> */}
+ </AuthProvider >
     </>)
 }
 

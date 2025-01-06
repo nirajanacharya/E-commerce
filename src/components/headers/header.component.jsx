@@ -1,24 +1,28 @@
 import "flowbite";
-import { DarkThemeToggle, Dropdown } from "flowbite-react";
-import { FaUser } from "react-icons/fa";
-import { FaChevronDown } from "react-icons/fa6";
-import  {UserIcon,ChevronDownArrow} from '../icons/icons.component';
-import { Link, NavLink } from "react-router-dom";
-import { set } from "react-hook-form";
-import { useEffect } from "react";
-import authSvc from "../../pages/auth/auth.service"
-import { useState } from "react";
+import { DarkThemeToggle } from "flowbite-react";
+import { UserIcon, ChevronDownArrow } from '../icons/icons.component';
+import { NavLink } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
 
-export const HomeHeader = () => {	// receive the data and use it props
-	const [user, setUser] = useState();
+import AuthContext from "../../components/context/AuthContext";
 
-	const checkLoggedInUser = async () => {
-		const response = await authSvc.getLoggedInUser();
-		setUser(response);
-	}
-	useEffect(()=>{
-		checkLoggedInUser(); //it will run only once without any dependencies
-	},[])
+export const HomeHeader = () => {	
+	const {user} = useContext(AuthContext);	
+	console.log("userContext", {user});
+	// const [user, setUser] = useState();
+
+	// const checkLoggedInUser = async () => {
+	// 	try {
+	// 		const response = await authSvc.getLoggedInUser();
+	// 		setUser(response);
+	// 	} catch (error) {
+	// 		console.error("Error fetching logged-in user:", error);
+	// 	}
+	// };
+
+	// useEffect(() => {
+	// 	checkLoggedInUser(); 
+	// }, []);
 
     return (
         <nav className="bg-white dark:bg-primary-950 antialiased">
